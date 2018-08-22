@@ -1,0 +1,17 @@
+<article className='media'>
+  <div className='media-content'>
+    <div className='field'>
+      <p className='control'>
+        <textarea ng-change="handleNewCommentChange()" ng-model="commentText"
+          class="textarea" placeholder="Add a comment..."></textarea>
+      </p>
+    </div>
+    <nav className='level'>
+      <div className='level-left'>
+        <div className='level-item'>
+          <a ng-click="handleNewCommentSubmit()" className="button is-info">Submit</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</article>

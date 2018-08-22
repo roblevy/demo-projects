@@ -1,0 +1,12 @@
+<section>
+  <ul>
+    <li
+      ng-repeat="pic in picsIndex.pics"
+      ui-sref="pic.show({ id: pic._id })">
+      <img ng-src="{{ pic.imgUrl }}" style="height: 200px; width: 200px;"></img>
+      <h3 class='subtitle is-clipped'>{{pic.title}}</h3>
+      <p>Comments: {{pic.comments.length}}</p>
+      <a ui-sref="picsShow({ id: pic._id })">View the image</a>
+    </li>
+  </ul>
+</section>

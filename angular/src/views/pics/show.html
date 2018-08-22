@@ -1,0 +1,19 @@
+<section>
+  <article class='container'>
+    <!-- Show main -->
+    <div ui-view='showMain'></div>
+    <!-- Controls -->
+    <div class='level'>
+      <div class='level-left'>
+        <div class='level-item'>
+          <div ui-view='commentsNew' ng-if='newCommentShow'></div>
+        </div>
+        <p class='level-item'>
+          <a class='button' ng-click='handleNewCommentClick()'>Add comment</a>
+        </p>
+      </div>
+    </div>
+    <!-- Comments -->
+    <div ui-view='commentsIndex'></div>
+  </article>
+</section>

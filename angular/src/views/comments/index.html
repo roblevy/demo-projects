@@ -1,0 +1,25 @@
+<section>
+  <ul>
+    <li ng-repeat="comment in pic.comments">
+      <div class='box'>
+        <div class='media'>
+          <figure class='media-left'>
+            <p class='image is-48x48 background-image'
+            style="background-image: url({{ comment.addedBy.imgUrl }})"
+          </p>
+        </figure>
+        <div class='media-content'>
+          <div class='content'>
+            <p>{{ comment.text }}</p>
+          </div>
+        </div>
+        <div class='media-right'>
+          <p class='delete' ng-click="handleCommentDelete(comment)">Delete comment</p>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+  </li>
+</ul>
+</section>
