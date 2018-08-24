@@ -1,9 +1,23 @@
 .game {
   position: relative;
-  width: 100vh;
   height: 80vh;
+  width: 80vw;
+  margin: 0 auto;
+  background-color: #fcfcfc;
 }
 
 .ball {
   border-radius: 100%;
+}
+
+.score {
+  position: absolute;
+  font-size: 30px;
+  font-family: sans-serif;
+  color: grey;
+  transition: color 0.2s
+}
+
+.flash {
+  color: red;
 }

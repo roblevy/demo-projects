@@ -9,10 +9,12 @@ class GameItem {
     this.width = width;
     this.height = height;
     this.canMove = false;
+    this.canDeflectBall = false;
     this.domElement = domElement;
     this.inGame = true;
     this.initialiseDomElement();
     this.draw();
+    gameItems.push(this);
   }
 
   initialiseDomElement() {
@@ -29,7 +31,7 @@ class GameItem {
   }
 
   remove() {
-    this.domElement.remove();
+    this.domElement.parentNode.removeChild(this.domElement);
     this.inGame = false;
     gameItems.splice(gameItems.indexOf(this), 1);
   }

@@ -1,6 +1,10 @@
 /* global GameItem, Player, gameItems, logMessage */
 /* eslint-disable no-unused-vars */
 const ballDiameter = 3;
+const ballStartX = 25;
+const ballStartY = 40;
+const ballVelocityX = 0.7;
+const ballVelocityY = 0.9;
 
 class Ball extends GameItem {
   constructor(x, y, xVelocity, yVelocity) {
@@ -23,7 +27,7 @@ class Ball extends GameItem {
   }
 
   checkBoundaries() {
-    if(this.x <=0 || this.x > 100) this.bounceX();
+    if(this.x <=0 || (this.x + ballDiameter) > 100) this.bounceX();
     if(this.y >= 100) this.bounceY();
   }
 
@@ -37,9 +41,10 @@ class Ball extends GameItem {
 
   checkCollisions() {
     const otherItems = gameItems.filter(item => !(item instanceof Ball));
+    const canDeflectBall = otherItems.filter(item => item.canDeflectBall);
     const collidesWith = this.collidesWith(otherItems);
     const collisionDirections = [];
-    collidesWith.forEach(collidedObject => {
+    canDeflectBall.forEach(collidedObject => {
       collisionDirections.push(this.collisionDirection(collidedObject));
       collidedObject.hitByBall();
       if(collidedObject instanceof Player) {
@@ -54,9 +59,7 @@ class Ball extends GameItem {
     const ballCentre = this.x + ( this.width / 2 );
     const playerCentre = player.x + (player.width / 2);
     const accelerationFraction = (ballCentre - playerCentre) / player.width;
-    const acceleration = this.xV < 0 ? 1 - accelerationFraction : 1 + accelerationFraction;
-    this.xV *= acceleration;
+    this.xV += accelerationFraction;
   }
 
 }
-

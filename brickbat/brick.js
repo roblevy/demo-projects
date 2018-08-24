@@ -23,7 +23,9 @@ class Brick extends GameItem {
     if(!parseInt(points)) {
       console.log('NaN?', this, 'points is', points);
     }
+    this.canDeflectBall = true;
     this.livesLeft = parseInt(points);
+    this.powerups = [];
   }
 
   hitByBall() {
@@ -32,9 +34,22 @@ class Brick extends GameItem {
       this.livesLeft --;
     }
     if(!this.livesLeft) {
-      this.remove();
+      this.break();
+    }
+  }
+
+  break() {
+    this.remove();
+    this.powerups.forEach(powerup => {
+      console.log('Release a powerup', powerup);
+      powerup.release();
+    });
+  }
+
+  addPowerup(type) {
+    if(type) {
+      const powerup = new powerups[type](this.x, this.y); /* global powerups */
+      this.powerups.push(powerup);
     }
   }
 }
-
-

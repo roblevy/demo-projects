@@ -5,13 +5,11 @@ const logDiv = document.getElementById('header');
 const scoreDiv = document.getElementById('score');
 let gameRunning = false;
 
-let gameClockInterval; 
+let gameClockInterval;
 const gameItems = [];
 let logMessage = '';
 
 let level = 1;
-const ballStartX = 25;
-const ballStartY = 40;
 let points = 0;
 
 function startClock() {
@@ -22,33 +20,50 @@ function startClock() {
 }
 
 function createLevel(levelNumber) {
-  if (levelNumber < 10) levelNumber = '0' + levelNumber; 
-  lib.csv('/levels/level' + levelNumber + '.csv')
+  lib.csv('/levels/level' + lib.pad(levelNumber, 2) + '.csv')
     .then(res => {
-      console.log('loading level', res);
       res.forEach((row, i) => {
-        row.forEach((brickScore, j) => {
-          if(brickScore !== '0') {
-            const x = j * (brickWidth + 0.5);
-            const y = i * (brickHeight + 0.5) + 80;
-            gameItems.push(new Brick(x, y, brickScore));
-          }
+        row.forEach((brickData, j) => {
+          createBrick(i, j, brickData);
         });
       });
     });
 }
 
+function createBrick(i, j, brickData) {
+  // i and j are the grid position of the brick.
+  // brickData is, e.g. 2b
+  // score of 2, powerup type b.
+  const brickScore = brickData[0];
+  const powerupType = brickData[1];
+  if(brickScore !== '0') {
+    const x = j * (brickWidth + 0.5);
+    const y = i * (brickHeight + 0.5) + 80;
+    const brick = new Brick(x, y, brickScore);
+    brick.addPowerup(powerupType);
+  }
+}
+
 function startLevel(levelNumber) {
-  gameItems.forEach(item => item.remove());
-  // empty(gameItems);
+  while(gameItems.length) {
+    gameItems.forEach(item => item.remove());
+  }
+
   createLevel(levelNumber);
-  gameItems.push(new Player(20, 30));
-  gameItems.push(new Ball(ballStartX, ballStartY, 0.7, 0.5));
+  gameItems.push(new Player(20, 10));
+  new Ball(ballStartX, ballStartY, ballVelocityX, ballVelocityY);
   clearInterval(gameClockInterval);
   gameClockInterval = startClock();
 }
 
 function tickGame() {
+  moveItems();
+  if(levelComplete()) {
+    nextLevel();
+  }
+}
+
+function moveItems() {
   gameItems.forEach(gameItem => {
     if(gameItem.canMove) {
       if(gameItem.xVelocity() || gameItem.yVelocity()) {
@@ -58,17 +73,25 @@ function tickGame() {
   });
 }
 
+function levelComplete() {
+  return !gameItems.filter(item => item instanceof Brick).length;
+}
+
 function addPoints(toAdd) {
   points += toAdd;
+  flashScore();
+}
+
+function flashScore() {
+  scoreDiv.classList.add('flash');
+  setTimeout(function() {
+    scoreDiv.classList.remove('flash');
+  }, 200);
 }
 
 function log() {
   logDiv.textContent = logMessage;
   scoreDiv.innerText = points;
-}
-
-function empty(arr) {
-  arr.splice(0, arr.length);
 }
 
 document.addEventListener('keydown', function(event) {
@@ -80,8 +103,12 @@ document.addEventListener('keydown', function(event) {
       }
       break;
     case 'n':
-      level++;
-      startLevel(level);
+      nextLevel();
       break;
   }
 });
+
+function nextLevel() {
+  level++;
+  startLevel(level);
+}

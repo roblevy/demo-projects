@@ -17,6 +17,7 @@ function json(url) {
 }
 
 function ajax(url, responseType) {
+  console.log('loading', url);
   responseType = responseType || 'json';
   return new Promise(function(resolve, reject) {
     const req = new XMLHttpRequest();
@@ -34,8 +35,6 @@ function ajax(url, responseType) {
                 .map(row => row.split(','));
               break;
           }
-          console.log('read from csv');
-          console.log(result);
           return resolve(result);
         } else {
           return reject(req);
@@ -48,9 +47,25 @@ function ajax(url, responseType) {
 
 }
 
+// Pad `toPad` with `padWith` such that it is as long as `toLength`
+// Default `padWith` is '0'.
+// > pad(1, 3)
+// 001
+// > pad('a', 4, '-')
+// ---a
+function padTo(toPad, toLength, padWith) {
+  toPad = toPad.toString();
+  padWith = padWith || '0';
+  let result = '';
+  for(let i = toLength; i > toPad.length; i--) {
+    result += padWith.toString();
+  }
+  return result + toPad;
+}
+
 const lib = {
   dimensions: dimensions,
   json: json,
-  csv: csv
+  csv: csv,
+  pad: padTo
 };
-
