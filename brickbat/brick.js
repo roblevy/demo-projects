@@ -26,6 +26,7 @@ class Brick extends GameItem {
     this.canDeflectBall = true;
     this.livesLeft = parseInt(points);
     this.powerups = [];
+    this.draw();
   }
 
   hitByBall() {
