@@ -13,9 +13,27 @@ class Player extends GameItem {
       return el;
     }
     super(x, y, playerWidth, playerHeight, domElement());
+    this.powerups = [];
     this.canMove = true;
+    this.canDeflectBall = true;
     this.moving = { l: false, r: false }; // Which direction(s) are we moving?
     this.addKeyListeners();
+    this.draw();
+  }
+
+  draw() {
+    super.draw();
+  }
+
+  addPowerup(powerup) {
+    if(!this.powerups.includes(powerup)) {
+      console.log('powerup!', powerup);
+      this.powerups.push(powerup);
+    }
+  }
+
+  removePowerup(powerup) {
+    this.powerups.splice(this.powerups.indexOf(powerup), 1);
   }
 
   addKeyListeners() {
@@ -56,5 +74,6 @@ class Player extends GameItem {
         _this.xVelocity(0);
       }
     }
+
   }
 }

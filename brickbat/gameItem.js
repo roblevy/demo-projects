@@ -13,25 +13,33 @@ class GameItem {
     this.domElement = domElement;
     this.inGame = true;
     this.initialiseDomElement();
-    this.draw();
     gameItems.push(this);
   }
 
   initialiseDomElement() {
     this.domElement.style.position = 'absolute';
+    this.setDomElementSize();
+    document.getElementById('game').appendChild(this.domElement);
+  }
+
+  setDomElementSize() {
     this.domElement.style.width = `${this.width}%`;
     this.domElement.style.height = `${this.height}%`;
-    document.getElementById('game').appendChild(this.domElement);
   }
 
   draw() {
     const top = 100 - this.y - this.height;
     this.domElement.style.top = `${top}%`;
     this.domElement.style.left = `${this.x}%`;
+    if(top > 100) {
+      this.remove();
+    }
   }
 
   remove() {
-    this.domElement.parentNode.removeChild(this.domElement);
+    if(this.domElement) {
+      this.domElement.remove();
+    }
     this.inGame = false;
     gameItems.splice(gameItems.indexOf(this), 1);
   }

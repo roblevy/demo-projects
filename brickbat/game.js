@@ -13,6 +13,7 @@ let level = 1;
 let points = 0;
 
 function startClock() {
+  gameRunning = true;
   return setInterval(function() {
     tickGame();
     log(logMessage);
@@ -52,15 +53,25 @@ function startLevel(levelNumber) {
   createLevel(levelNumber);
   gameItems.push(new Player(20, 10));
   new Ball(ballStartX, ballStartY, ballVelocityX, ballVelocityY);
-  clearInterval(gameClockInterval);
+  stopGame();
   gameClockInterval = startClock();
 }
 
+function stopGame() {
+  gameRunning = false;
+  clearInterval(gameClockInterval);
+}
+
 function tickGame() {
+  drawItems();
   moveItems();
   if(levelComplete()) {
     nextLevel();
   }
+}
+
+function drawItems() {
+  gameItems.forEach(gameItem => gameItem.draw());
 }
 
 function moveItems() {
@@ -98,13 +109,14 @@ document.addEventListener('keydown', function(event) {
   switch(event.key) {
     case ' ':
       if(!gameRunning) {
-        gameRunning = true;
         startLevel(level);
       }
       break;
     case 'n':
       nextLevel();
       break;
+    case 'Escape':
+      stopGame();
   }
 });
 

@@ -18,12 +18,17 @@ class Ball extends GameItem {
     this.canMove = true;
     this.xVelocity(xVelocity);
     this.yVelocity(yVelocity);
+    this.draw();
   }
 
   draw() {
+    super.draw();
+  }
+
+  move() {
     this.checkBoundaries();
     this.checkCollisions();
-    super.draw();
+    super.move();
   }
 
   checkBoundaries() {
@@ -32,6 +37,7 @@ class Ball extends GameItem {
   }
 
   bounceX() {
+    console.log('bounce!');
     this.xVelocity(-this.xV);
   }
 
@@ -42,9 +48,9 @@ class Ball extends GameItem {
   checkCollisions() {
     const otherItems = gameItems.filter(item => !(item instanceof Ball));
     const canDeflectBall = otherItems.filter(item => item.canDeflectBall);
-    const collidesWith = this.collidesWith(otherItems);
+    const collidesWith = this.collidesWith(canDeflectBall);
     const collisionDirections = [];
-    canDeflectBall.forEach(collidedObject => {
+    collidesWith.forEach(collidedObject => {
       collisionDirections.push(this.collisionDirection(collidedObject));
       collidedObject.hitByBall();
       if(collidedObject instanceof Player) {
