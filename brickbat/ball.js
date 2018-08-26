@@ -1,8 +1,8 @@
 /* global GameItem, Player, gameItems, logMessage */
 /* eslint-disable no-unused-vars */
 const ballDiameter = 3;
-const ballStartX = 25;
-const ballStartY = 40;
+const ballStartX = 20;
+const ballStartY = 20;
 const ballVelocityX = 0.7;
 const ballVelocityY = 0.9;
 
@@ -34,15 +34,26 @@ class Ball extends GameItem {
   checkBoundaries() {
     if(this.x <=0 || (this.x + ballDiameter) > 100) this.bounceX();
     if(this.y >= 100) this.bounceY();
+    if(this.inGame) {
+      if(this.y < 0) {
+        this.ballIsLost();
+      }
+    }
   }
 
   bounceX() {
-    console.log('bounce!');
     this.xVelocity(-this.xV);
   }
 
   bounceY() {
     this.yVelocity(-this.yV);
+  }
+
+  ballIsLost() {
+    // TODO: Consider refactoring this. Whose job should this be?
+    this.inGame = false;
+    loseLife(); // TODO: Refactor
+    this.remove();
   }
 
   checkCollisions() {

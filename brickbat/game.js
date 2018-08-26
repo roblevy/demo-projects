@@ -12,6 +12,8 @@ let logMessage = '';
 let level = 1;
 let points = 0;
 
+let player1;
+
 function startClock() {
   gameRunning = true;
   return setInterval(function() {
@@ -20,7 +22,7 @@ function startClock() {
   }, gameSpeed);
 }
 
-function createLevel(levelNumber) {
+function buildLevelBricks(levelNumber) {
   lib.csv('/levels/level' + lib.pad(levelNumber, 2) + '.csv')
     .then(res => {
       res.forEach((row, i) => {
@@ -45,16 +47,16 @@ function createBrick(i, j, brickData) {
   }
 }
 
-function startLevel(levelNumber) {
+function prepareLevel(levelNumber) {
+  stopGame();
   while(gameItems.length) {
     gameItems.forEach(item => item.remove());
   }
 
-  createLevel(levelNumber);
-  gameItems.push(new Player(20, 10));
+  buildLevelBricks(levelNumber);
+  player1 = new Player(20, 10);
+  gameItems.push(player1);
   new Ball(ballStartX, ballStartY, ballVelocityX, ballVelocityY);
-  stopGame();
-  gameClockInterval = startClock();
 }
 
 function stopGame() {
@@ -109,7 +111,7 @@ document.addEventListener('keydown', function(event) {
   switch(event.key) {
     case ' ':
       if(!gameRunning) {
-        startLevel(level);
+        gameClockInterval = startClock();
       }
       break;
     case 'n':
@@ -122,5 +124,17 @@ document.addEventListener('keydown', function(event) {
 
 function nextLevel() {
   level++;
-  startLevel(level);
+  prepareLevel(level);
 }
+
+// TODO: This needs refactoring
+function loseLife() {
+  player1.loseLife();
+  stopGame();
+  if(player1.lives >= 0) {
+    console.log('Lost a life! ' + player1.lives + ' lives remaining')
+    new Ball(ballStartX, ballStartY, ballVelocityX, ballVelocityY);
+  }
+}
+
+prepareLevel(1);

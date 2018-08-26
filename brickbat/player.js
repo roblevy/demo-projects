@@ -13,6 +13,7 @@ class Player extends GameItem {
       return el;
     }
     super(x, y, playerWidth, playerHeight, domElement());
+    this.lives = 5;
     this.powerups = [];
     this.canMove = true;
     this.canDeflectBall = true;
@@ -36,6 +37,15 @@ class Player extends GameItem {
     this.powerups.splice(this.powerups.indexOf(powerup), 1);
   }
 
+  loseLife() {
+    this.lives -= 1;
+    if(this.lives < 0) {
+      alert('game over!');
+      level = 0;
+      nextLevel();
+    }
+  }
+
   addKeyListeners() {
     const _this = this;
     document.addEventListener('keydown', function(event) {
@@ -43,7 +53,7 @@ class Player extends GameItem {
         case 'a':
           _this.moving.l = true;
           break;
-        case 'd':
+        case 'l':
           _this.moving.r = true;
           break;
       }
@@ -54,7 +64,7 @@ class Player extends GameItem {
         case 'a':
           _this.moving.l = false;
           break;
-        case 'd':
+        case 'l':
           _this.moving.r = false;
           break;
       }
