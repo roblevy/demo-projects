@@ -4,7 +4,8 @@ const ballDiameter = 3;
 const ballStartX = 20;
 const ballStartY = 20;
 const ballVelocityX = 0.7;
-const ballVelocityY = 0.9;
+const ballVelocityY = 1.3;
+const playerSteerFactor = 0.4; // How much can the bat 'steer' the ball
 
 class Ball extends GameItem {
   constructor(x, y, xVelocity, yVelocity) {
@@ -76,7 +77,7 @@ class Ball extends GameItem {
     const ballCentre = this.x + ( this.width / 2 );
     const playerCentre = player.x + (player.width / 2);
     const accelerationFraction = (ballCentre - playerCentre) / player.width;
-    this.xV += accelerationFraction;
+    this.xV += (accelerationFraction * playerSteerFactor);
   }
 
 }

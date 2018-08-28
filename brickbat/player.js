@@ -1,6 +1,6 @@
 /* global lib, GameItem */
 /* eslint-disable no-unused-vars */
-let playerWidth = 10;
+let playerWidth = 15;
 let playerHeight = 3;
 let playerSpeed = 1;
 

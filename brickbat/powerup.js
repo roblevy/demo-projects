@@ -19,21 +19,22 @@ class Powerup extends GameItem {
   }
 
   draw() {
-    this.checkPlayerCollisions();
     super.draw();
+    this.checkPlayerCollisions();
   }
 
-  applyPowerupTo(gameItem) {}
+  applyPowerupTo(gameItem) {
+    gameItem.addPowerup(this);
+  }
   removePowerupFrom(gameItem) {}
 
   checkPlayerCollisions() {
     const players = gameItems.filter(gameItem => gameItem instanceof Player);
     this.collidesWith(players).forEach(player => {
-      console.log('collision');
-      player.addPowerup(this);
+      console.log('collision with', player);
       this.applyPowerupTo(player);
       this.remove();
-    })
+    });
   }
 }
 
