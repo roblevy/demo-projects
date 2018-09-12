@@ -30,11 +30,12 @@ class Powerup extends GameItem {
 
   checkPlayerCollisions() {
     const players = gameItems.filter(gameItem => gameItem instanceof Player);
-    this.collidesWith(players).forEach(player => {
+    const playersCollidedWith = this.collidesWith(players);
+    playersCollidedWith.forEach(player => {
       console.log('collision with', player);
       this.applyPowerupTo(player);
-      this.remove();
     });
+    if(playersCollidedWith.length) this.remove();
   }
 }
 
@@ -58,6 +59,20 @@ class Extendabat extends Powerup {
   }
 }
 
+class Laser extends Powerup {
+  constructor(x, y) {
+    super(x, y, 5, 5);
+    this.domElement.style.backgroundColor = 'yellow';
+    this.draw();
+  }
+
+  applyPowerupTo(gameItem) {
+    gameItem.domElement.classList.add('with-lasers');
+    setTimeout(() => this.removePowerupFrom())
+  }
+}
+
 const powerups = {
-  a: Extendabat
+  a: Extendabat,
+  b: Laser
 };
