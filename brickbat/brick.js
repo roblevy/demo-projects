@@ -29,7 +29,7 @@ class Brick extends GameItem {
     this.draw();
   }
 
-  hitByBall() {
+  wasHit() {
     if(this.inGame) {
       addPoints(this.points);
       this.livesLeft --;

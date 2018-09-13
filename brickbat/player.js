@@ -56,6 +56,9 @@ class Player extends GameItem {
         case 'l':
           _this.moving.r = true;
           break;
+        case 'j':
+          _this.beginAction();
+          break;
       }
       setVelocity();
     });
@@ -66,6 +69,9 @@ class Player extends GameItem {
           break;
         case 'l':
           _this.moving.r = false;
+          break;
+        case 'j':
+          _this.endAction();
           break;
       }
       setVelocity();
@@ -84,6 +90,9 @@ class Player extends GameItem {
         _this.xVelocity(0);
       }
     }
-
   }
+
+  beginAction() {}
+
+  endAction() {}
 }

@@ -64,7 +64,7 @@ class Ball extends GameItem {
     const collisionDirections = [];
     collidesWith.forEach(collidedObject => {
       collisionDirections.push(this.collisionDirection(collidedObject));
-      collidedObject.hitByBall();
+      collidedObject.wasHit();
       if(collidedObject instanceof Player) {
         this.playerCollision(collidedObject);
       }

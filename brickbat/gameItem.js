@@ -1,6 +1,7 @@
 /* global lib, gameItems */
 /* eslint-disable no-unused-vars */
 class GameItem {
+  // TODO: Change domElement to className and just make a div for everything
   constructor(x, y, width, height, domElement) {
     this.x = x;
     this.y = y;
@@ -83,7 +84,7 @@ class GameItem {
     return arrayOfObjects.filter(object => this.collidesWithObject(object));
   }
 
-  hitByBall() {
+  wasHit() {
     // Do nothing by default
   }
 }
