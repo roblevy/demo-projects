@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 class GameItem {
   // TODO: Change domElement to className and just make a div for everything
-  constructor(x, y, width, height, domElement) {
+  constructor(x, y, width, height, cssClass) {
     this.x = x;
     this.y = y;
     this.xV = 0;
@@ -11,21 +11,26 @@ class GameItem {
     this.height = height;
     this.canMove = false;
     this.canDeflectBall = false;
-    this.domElement = domElement;
+    this.cssClass = cssClass;
     this.inGame = true;
     this.initialiseDomElement();
     gameItems.push(this);
   }
 
   initialiseDomElement() {
-    this.domElement.style.position = 'absolute';
-    this.setDomElementSize();
-    document.getElementById('game').appendChild(this.domElement);
+    const domElement = document.createElement('div');
+    domElement.className = `gameItem ${this.cssClass}`;
+    domElement.style.position = 'absolute';
+    this.setDomElementSizeAndPosition(domElement);
+    document.getElementById('game').appendChild(domElement);
+    this.domElement = domElement;
   }
 
-  setDomElementSize() {
-    this.domElement.style.width = `${this.width}%`;
-    this.domElement.style.height = `${this.height}%`;
+  setDomElementSizeAndPosition(el) {
+    el.style.width = `${this.width}%`;
+    el.style.height = `${this.height}%`;
+    el.left = this.x;
+    el.top = this.y;
   }
 
   draw() {
@@ -38,11 +43,13 @@ class GameItem {
   }
 
   remove() {
-    if(this.domElement) {
-      this.domElement.remove();
+    if(this.inGame) {
+      this.inGame = false;
+      if(this.domElement) {
+        this.domElement.remove();
+      }
+      gameItems.splice(gameItems.indexOf(this), 1);
     }
-    this.inGame = false;
-    gameItems.splice(gameItems.indexOf(this), 1);
   }
 
   xVelocity(v) {

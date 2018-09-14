@@ -22,3 +22,30 @@
 .flash {
   color: red;
 }
+
+.gameItem {
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+}
+
+.player {
+  background-image: url('./assets/player.png');
+}
+
+.ball {
+   background-image: url('./assets/ball.png');
+}
+
+.brick {
+  background-image: url('./assets/brick.png');
+}
+
+.powerup {
+  background-image: url('./assets/powerup.png');
+  visibility: hidden;
+}
+
+.bullet {
+  background-image: url('./assets/laser.png');
+}

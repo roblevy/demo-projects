@@ -12,13 +12,7 @@ const brickColors = {
 
 class Brick extends GameItem {
   constructor(x, y, points) {
-    function domElement() {
-      const el = document.createElement('div');
-      el.style.backgroundColor = brickColors[points];
-      el.className = 'brick';
-      return el;
-    }
-    super(x, y, brickWidth, brickHeight, domElement());
+    super(x, y, brickWidth, brickHeight, 'brick');
     this.points = parseInt(points) * 5;
     if(!parseInt(points)) {
       console.log('NaN?', this, 'points is', points);

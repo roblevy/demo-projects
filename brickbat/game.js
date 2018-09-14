@@ -49,9 +49,8 @@ function createBrick(i, j, brickData) {
 
 function prepareLevel(levelNumber) {
   stopGame();
-  while(gameItems.length) {
-    gameItems.forEach(item => item.remove());
-  }
+  gameItems.forEach(item => item.remove());
+  while(gameItems.length) gameItems.pop();
 
   buildLevelBricks(levelNumber);
   player1 = new Player(20, 10);
@@ -123,6 +122,7 @@ document.addEventListener('keydown', function(event) {
 });
 
 function nextLevel() {
+  console.log('Completed level ' + level);
   level++;
   prepareLevel(level);
 }

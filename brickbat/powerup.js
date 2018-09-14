@@ -2,19 +2,15 @@
 const powerupSpeed = 0.8;
 
 class Powerup extends GameItem {
-  constructor(x, y, width, height) {
-    const domElement = document.createElement('div');
-    domElement.style.display = 'none';
-    domElement.style.height = 3;
-    domElement.style.width = 3;
-    super(x, y, width, height, domElement);
+  constructor(x, y, width, height, cssClass) {
+    super(x, y, width, height, `powerup ${cssClass}`);
     this.canMove = true;
     this.xVelocity(0);
     this.yVelocity(0);
   }
 
   release() {
-    this.domElement.style.display = null;
+    this.domElement.style.visibility = 'inherit';
     this.yVelocity(-powerupSpeed);
   }
 
@@ -26,13 +22,13 @@ class Powerup extends GameItem {
   applyPowerupTo(gameItem) {
     gameItem.addPowerup(this);
   }
+
   removePowerupFrom(gameItem) {}
 
   checkPlayerCollisions() {
     const players = gameItems.filter(gameItem => gameItem instanceof Player);
     const playersCollidedWith = this.collidesWith(players);
     playersCollidedWith.forEach(player => {
-      console.log('collision with', player);
       this.applyPowerupTo(player);
     });
     if(playersCollidedWith.length) this.remove();
@@ -41,8 +37,7 @@ class Powerup extends GameItem {
 
 class Extendabat extends Powerup {
   constructor(x, y) {
-    super(x, y, 5, 5);
-    this.domElement.style.backgroundColor = 'pink';
+    super(x, y, 5, 5, 'extendabat');
     this.draw();
   }
 
@@ -61,8 +56,7 @@ class Extendabat extends Powerup {
 
 class Laser extends Powerup {
   constructor(x, y) {
-    super(x, y, 5, 5);
-    this.domElement.style.backgroundColor = 'yellow';
+    super(x, y, 5, 5, 'lasers');
     this.draw();
   }
 
@@ -78,17 +72,16 @@ class Laser extends Powerup {
 
   // TODO: This doesn't work
   removePowerupFrom(item) {
-    console.log('laser', this, 'item', item);
     item.beginAction = this.previousBeginAction;
     item.endAction = this.previousEndAction;
     this.remove();
   }
 
   startFiring() {
-    new Bullet(this.x, this.y);
+    new Bullet(this.x, this.y + 5);
     if(!this.firingInterval) {
       this.firingInterval = setInterval(function(item) {
-        new Bullet(item.x, item.y);
+        new Bullet(item.x, this.y + 5);
       }, 500, this);
     }
   }
@@ -101,9 +94,7 @@ class Laser extends Powerup {
 
 class Bullet extends GameItem {
   constructor(x, y) {
-    const domElement = document.createElement('div');
-    domElement.style.backgroundColor = 'grey';
-    super(x, y, 1, 5, domElement);
+    super(x, y, 1, 5, 'bullet');
     this.xVelocity(0);
     this.yVelocity(1);
     this.canMove = true;

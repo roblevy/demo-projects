@@ -1,18 +1,12 @@
 /* global lib, GameItem */
 /* eslint-disable no-unused-vars */
 let playerWidth = 15;
-let playerHeight = 3;
+let playerHeight = 10;
 let playerSpeed = 1;
 
 class Player extends GameItem {
   constructor(x, y) {
-    function domElement() {
-      const el = document.createElement('div');
-      el.style.backgroundColor = 'blue';
-      el.className = 'player';
-      return el;
-    }
-    super(x, y, playerWidth, playerHeight, domElement());
+    super(x, y, playerWidth, playerHeight, 'player');
     this.lives = 5;
     this.powerups = [];
     this.canMove = true;

@@ -9,13 +9,7 @@ const playerSteerFactor = 0.4; // How much can the bat 'steer' the ball
 
 class Ball extends GameItem {
   constructor(x, y, xVelocity, yVelocity) {
-    function domElement() {
-      const el = document.createElement('div');
-      el.style.backgroundColor = 'red';
-      el.className = 'ball';
-      return el;
-    }
-    super(x, y, ballDiameter, ballDiameter, domElement());
+    super(x, y, ballDiameter, ballDiameter, 'ball');
     this.canMove = true;
     this.xVelocity(xVelocity);
     this.yVelocity(yVelocity);
@@ -52,7 +46,6 @@ class Ball extends GameItem {
 
   ballIsLost() {
     // TODO: Consider refactoring this. Whose job should this be?
-    this.inGame = false;
     loseLife(); // TODO: Refactor
     this.remove();
   }
