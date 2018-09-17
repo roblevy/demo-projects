@@ -41,17 +41,16 @@ class Player extends GameItem {
   }
 
   addKeyListeners() {
-    const _this = this;
-    document.addEventListener('keydown', function(event) {
+    document.addEventListener('keydown', (event) => {
       switch(event.key) {
         case 'a':
-          _this.moving.l = true;
+          this.moving.l = true;
           break;
         case 'l':
-          _this.moving.r = true;
+          this.moving.r = true;
           break;
         case 'j':
-          _this.beginAction();
+          this.beginAction();
           break;
       }
       setVelocity();

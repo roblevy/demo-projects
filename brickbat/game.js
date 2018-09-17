@@ -132,7 +132,7 @@ function loseLife() {
   player1.loseLife();
   stopGame();
   if(player1.lives >= 0) {
-    console.log('Lost a life! ' + player1.lives + ' lives remaining')
+    console.log('Lost a life! ' + player1.lives + ' lives remaining');
     new Ball(ballStartX, ballStartY, ballVelocityX, ballVelocityY);
   }
 }
