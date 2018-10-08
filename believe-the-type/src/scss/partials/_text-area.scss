@@ -1,0 +1,21 @@
+.text-area {
+  flex-grow: 1;
+  background-color: green;
+  width: 100%;
+}
+
+.text {
+  font-size: 25px;
+  color: white;
+  font-weight: bold;
+}
+
+.correct {
+  color: #aaa;
+  background-color: #0003;
+}
+
+.incorrect {
+  color: red;
+  background-color: #F006;
+}

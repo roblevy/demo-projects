@@ -25,7 +25,16 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
+      {
+        test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/,
+        options: {
+          presets: ['@babel/preset-env', '@babel/preset-react'],
+          plugins: [
+            require('@babel/plugin-proposal-object-rest-spread'),
+            require('@babel/plugin-proposal-class-properties')
+          ]
+        }
+      },
       { test: /\.css$/, loader: ['style-loader', 'css-loader'] },
       { test: /\.s(a|c)ss$/, loader: ['style-loader', 'css-loader', 'sass-loader'] },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
