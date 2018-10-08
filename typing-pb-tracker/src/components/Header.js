@@ -11,25 +11,23 @@ const Header = ({ history }) => {
 
   return (
     <nav className='navbar' role='navigation'>
-      <div className='container'>
-        <div className='navbar-brand'>
-          <a className='navbar-item' href='/'>
-            <img src='/assets/logo.jpg' alt="Logz: isn't it nice?"/>
-          </a>
-        </div>
-        <div className='navbar-end'>
-          {!Auth.isAuthenticated() &&
-          <Link className='navbar-item' to='/register'>Register</Link>}
-          {!Auth.isAuthenticated() &&
-          <Link className='navbar-item' to='/login'>Login</Link>}
-          <Link className='navbar-item' to='/table'>League Table</Link>
-          {Auth.isAuthenticated() &&
-          <Link className='navbar-item' to='/logs/new'>Log your WPM</Link>}
-          {Auth.isAuthenticated() &&
-          <Link className='navbar-item' to='/logs'>See your logz</Link>}
-          {Auth.isAuthenticated() &&
-          <a href="#" className="navbar-item standard-button" onClick={logout}>Logout {Auth.getPayload().name}</a>}
-        </div>
+      <div className='navbar-brand'>
+        <a className='navbar-item' href='/'>
+          <div className='logo' />
+        </a>
+      </div>
+      <div className='navbar-end'>
+        {!Auth.isAuthenticated() &&
+        <Link className='navbar-item' to='/register'>Register</Link>}
+        {!Auth.isAuthenticated() &&
+        <Link className='navbar-item' to='/login'>Login</Link>}
+        <Link className='navbar-item' to='/table'>League Table</Link>
+        {Auth.isAuthenticated() &&
+        <Link className='navbar-item' to='/logs/new'>Log your WPM</Link>}
+        {Auth.isAuthenticated() &&
+        <Link className='navbar-item' to='/logs'>See your logz</Link>}
+        {Auth.isAuthenticated() &&
+        <a href="#" className="navbar-item standard-button" onClick={logout}>Logout {Auth.getPayload().name}</a>}
       </div>
     </nav>
   );

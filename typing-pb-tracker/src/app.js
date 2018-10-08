@@ -23,23 +23,25 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <main className='section'>
-          <div className='container'>
-            <Header />
-            <section>
-              <Switch>
-                <Route exact path="/login" component={Login}/>
-                <Route exact path="/register" component={Register}/>
-                <Route exact path="/table" component={LeagueTable}/>
-                <Route exact path="/" component={Home}/>
-                <Route exact path="/logs" component={LogsIndex}/>
-                <Route exact path="/logs/new" component={LogNew}/>
-                <Route path="/users/:id" component={UserShow}/>
-              </Switch>
-            </section>
-            <Footer />
-          </div>
-        </main>
+        <div className='page'>
+          <Header />
+          <main className='section'>
+            <div className='container'>
+              <section>
+                <Switch>
+                  <Route exact path="/login" component={Login}/>
+                  <Route exact path="/register" component={Register}/>
+                  <Route exact path="/table" component={LeagueTable}/>
+                  <Route exact path="/" component={Home}/>
+                  <Route exact path="/logs" component={LogsIndex}/>
+                  <Route exact path="/logs/new" component={LogNew}/>
+                  <Route path="/users/:id" component={UserShow}/>
+                </Switch>
+              </section>
+            </div>
+          </main>
+          <Footer />
+        </div>
       </Router>
     );
   }

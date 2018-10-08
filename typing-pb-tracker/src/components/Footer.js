@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className='footer has-text-centered'>
       <div className='container'>
         <div className='content'>
-          <p>This is the footer</p>
+          <p>Made with ❤️ for WDI 37 by Rob Levy</p>
         </div>
       </div>
     </footer>

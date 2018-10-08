@@ -14,7 +14,6 @@ class LogsIndex extends React.Component {
   }
 
   render() {
-    console.log(this.state.pbs);
     return (
       <section className="section">
         <table>
@@ -22,6 +21,7 @@ class LogsIndex extends React.Component {
             <tr>
               <th>User</th>
               <th>Email</th>
+              <th>Average WPM</th>
               <th>Personal best WPM</th>
             </tr>
           </thead>
@@ -30,6 +30,7 @@ class LogsIndex extends React.Component {
               <tr key={pb._id}>
                 <td>{pb.user[0].name}</td>
                 <td>{pb.user[0].email}</td>
+                <td>{pb.average}</td>
                 <td>{pb.best}</td>
               </tr>
             )}

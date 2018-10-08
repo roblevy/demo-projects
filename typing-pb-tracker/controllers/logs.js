@@ -59,13 +59,14 @@ function personalBestsRoute(req, res, next) {
       {
         $group: {
           _id: '$user',
-          best: { $max: '$wpm' }
+          best: { $max: '$wpm' },
+          average: { $avg: '$wpm' }
         }
       }, {
         $lookup: {from: 'users', localField: '_id', foreignField: '_id', as: 'user'}
       }
     ])
-    .sort({ best: -1 })
+    .sort({ average: -1 })
     .then(logs => res.json(logs))
     .catch(next);
 }
