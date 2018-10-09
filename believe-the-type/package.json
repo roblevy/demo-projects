@@ -33,5 +33,8 @@
     "seed": "node db/seeds",
     "start:server": "nodemon",
     "start:client": "webpack-dev-server"
+  },
+  "nodemonConfig": {
+    "ignore": ["src/*"]
   }
 }

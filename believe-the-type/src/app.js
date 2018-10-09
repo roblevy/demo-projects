@@ -1,20 +1,51 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './scss/style.scss';
 import TextArea from './components/TextArea';
 import RaceArea from './components/RaceArea';
+import axios from 'axios';
 
 class App extends React.Component {
 
   state = {
-    text: 'The quick brown fox jumped over the lazy dog.',
+    text: '',
     typed: '',
     status: '', // Stores 'o' for correct, 'x' for incorrect
     textInput: React.createRef(),
     errorStreakAt: 0,
     started: false,
-    wpm: 0
+    wpm: 0,
+    intervalId: null
+  }
+
+  componentDidMount() {
+    const raceId = this.props.match.params.id;
+    // let race;
+    axios.get(`/api/races/${raceId}`)
+      .then(res => this.setState({ race: res.data, text: res.data.text }));
+    this.setState({ readIntervalId: setInterval(this.readStatus, 1000) });
+    this.setState({ writeIntervalId: setInterval(this.writeStatus, 1000) });
+  }
+
+  readStatus = () => {
+    const raceId = this.props.match.params.id;
+    axios.get(`/api/races/${raceId}/results`)
+      .then(res => this.setState({ results: res.data }));
+  }
+
+  writeStatus = () => {
+    const { race, wpm, status, text } = this.state;
+    if (race) {
+      console.log('writing status');
+      axios.post(`/api/races/${race._id}/results`, {
+        complete: status ? this.raceIsFinished(status, text) : false,
+        race: race._id,
+        user: '5bb777fd8da008a7b72ac190',
+        wpm: wpm,
+        progress: status ? status.length / text.length * 100 : 0
+      });
+    }
   }
 
   componentDidUpdate() {
@@ -112,5 +143,5 @@ class App extends React.Component {
 
 ReactDOM.render(
   <Router>
-    <App />
+    <Route path="/race/:id" component={App}/>
   </Router>, document.getElementById('root'));

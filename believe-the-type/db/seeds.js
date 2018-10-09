@@ -68,7 +68,6 @@ User.create(userData)
   })
   .then(results => {
     console.log(`${results.length} results created`);
-    return Result.create(resultData);
   })
   .catch(err => console.log(err))
   .finally(() => mongoose.connection.close());

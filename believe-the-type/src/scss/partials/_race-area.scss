@@ -3,6 +3,8 @@
   background-color: red;
   width: 100%;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .wpm {
@@ -17,6 +19,19 @@
 }
 
 .attribution {
+  position: absolute;
   background-color: #fffc;
   padding: 3px;
+}
+
+.race-track {
+  width: 100%;
+}
+
+.racer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  background-color: white;
 }
