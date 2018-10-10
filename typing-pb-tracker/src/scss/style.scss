@@ -1,0 +1,23 @@
+table {
+  td,th {
+    padding: 5px 20px;
+  }
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.logo {
+  background-image: url('/assets/logo.jpg');
+  height: 100px;
+  width: 230px;
+  background-size: cover;
+}
+
+.navbar {
+  background-color: #eee;
+}

@@ -1,0 +1,40 @@
+h1,h2,p {
+  margin: 0;
+}
+
+.main-container {
+  perspective: 1px;
+  transform-style: preserve-3d;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.parallax-container {
+  position: absolute;
+  z-index: -1;
+  height: 100vh;
+  width: 100%;
+  transform: translateZ(-1px) scale(2);
+  background: url(https://static1.squarespace.com/static/5a4cc964be42d6a346c5089e/t/5a4cfac60d929722a0f158f2/1515023670816/IMG_9289.JPG);
+  background-size: cover;
+}
+
+
+.foreground {
+  z-index: 1;
+  background-color: #ffffff;
+  margin: 0;
+}
+
+.overlay {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 90vh;
+  z-index: 1;
+  margin: 0;
+}
+
