@@ -24,14 +24,47 @@
   padding: 3px;
 }
 
+$race-margin: 7px;
+
 .race-track {
   width: 100%;
-}
-
-.racer {
+  min-height: 100px;
+  background-color: grey;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  background-color: white;
+  flex-direction: column;
+  .race-lane {
+    display: flex;
+    margin: $race-margin;
+    align-items: center;
+    background-color: #445;
+  }
+  .racer-container {
+    position: relative;
+    flex: 0 0 85%;
+    background-color: #ff01;
+    margin-right: $race-margin;
+    .racer {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+    }
+  }
+  .result-summary-area {
+    flex: 0 0 15%; // Occupy x% of the space
+    background-color: teal;
+    font-size: 70%;
+    .summary-row {
+      display: flex;
+      div {
+        flex-basis: 50%;
+        text-align: center;
+        margin: 3px 0;
+        &:first-child {
+          text-align: right;
+        }
+      }
+    }
+  }
 }

@@ -10,7 +10,8 @@ const Result = require('../models/result');
 
 const userIds = [
   '5bb777fd8da008a7b72ac190',
-  '5bb777fd8da008a7b72ac191'
+  '5bb777fd8da008a7b72ac191',
+  '5bb777fd8da008a7b72ac192'
 ];
 
 const raceIds = [
@@ -25,6 +26,10 @@ const userData = [
   }, {
     _id: userIds[1],
     username: 'dave',
+    password: 'pass'
+  }, {
+    _id: userIds[2],
+    username: 'alice',
     password: 'pass'
   }
 ];
@@ -44,12 +49,16 @@ const resultData = [
     user: userIds[0],
     wpm: 60,
     progress: 40
-  },
-  {
+  }, {
     race: raceIds[0],
     user: userIds[1],
     wpm: 50,
     progress: 60
+  }, {
+    race: raceIds[0],
+    user: userIds[2],
+    wpm: 75,
+    progress: 100
   }
 ];
 
