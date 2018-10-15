@@ -1,0 +1,20 @@
+nav {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  a,button {
+    text-decoration: none;
+    height: 100%;
+    padding: 0 25px;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    display: flex;
+    align-items: center;
+    &:hover {
+      color: grey;
+      background-color: #eee
+    }
+  }
+}

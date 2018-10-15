@@ -2,18 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './scss/style.scss';
+import Header from './components/Header';
 import RacesShow from './components/races/RacesShow';
 import Home from './components/Home';
+import Login from './components/auth/Login';
+import auth from './lib/auth';
 
 class App extends React.Component {
+
   render() {
     return (
-      <div className="fullscreen" onClick={this.focusTextInput}>
-        <h1>Believe the type!</h1>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/races/:id" component={RacesShow} />
-        </Switch>
+      <div>
+        <Header handleLogout={this.handleLogout}/>
+        <div className="fullscreen" onClick={this.focusTextInput}>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/login" component={Login} />
+            <Route path="/races/:id" component={RacesShow} />
+          </Switch>
+        </div>
       </div>
     );
   }

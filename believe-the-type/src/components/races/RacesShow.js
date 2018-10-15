@@ -2,6 +2,7 @@ import React from 'react';
 import TextArea from './TextArea';
 import RaceArea from './RaceArea';
 import axios from 'axios';
+import auth from '../../lib/auth';
 
 class RacesShow extends React.Component {
 
@@ -40,7 +41,7 @@ class RacesShow extends React.Component {
       axios.post(`/api/races/${race._id}/results`, {
         complete: status ? this.raceIsFinished(status, text) : false,
         race: race._id,
-        user: '5bb777fd8da008a7b72ac190',
+        user: auth.getPayload().sub,
         wpm: wpm,
         progress: status ? status.length / text.length * 100 : 0
       });
@@ -72,7 +73,6 @@ class RacesShow extends React.Component {
 
   handleKeyDown = (e) => {
     let { typed, status } = this.state;
-    console.log(e.key);
     switch (e.key) {
       case 'Backspace':
         // Remove the last character

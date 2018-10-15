@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const excerptSchema = mongoose.Schema({
-  text: String
+  text: String,
+  source: String
 });
 
 excerptSchema.methods.snippet = function(wordCount) {
