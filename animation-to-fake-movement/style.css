@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 50vh;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.container .row {
+  display: flex;
+}
+
+:root {
+  --cell-size: 20px;
+}
+
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border: 1px solid #ffff;
+  border-radius: 100%;
+  margin: calc(var(--cell-size) / 4);
+}
+
+.marble {
+  background-color: steelblue;
+  border: 1px #ccc solid;
+}
+
+.animated {
+  position: absolute;
+  margin: 0;
+  transition: all 1s;
+}
