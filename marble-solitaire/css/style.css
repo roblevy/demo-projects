@@ -1,0 +1,39 @@
+.board .row {
+  display: flex; }
+  .board .row .cell {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    border-radius: 100%;
+    border: 1px white solid; }
+    .board .row .cell.inaccessible {
+      background-color: black; }
+    .board .row .cell.marble {
+      background-color: blue; }
+    .board .row .cell.empty {
+      background-color: white; }
+    .board .row .cell.jump-option {
+      border: 1px red solid; }
+    .board .row .cell.awaiting {
+      animation: throb 0.8s linear infinite; }
+.board.error {
+  animation: shudder 0.1s infinite linear; }
+
+@keyframes shudder {
+  from {
+    transform: translate(0, 0); }
+  33% {
+    transform: translateX(3px); }
+  66% {
+    transform: translateX(-3px); }
+  to {
+    transform: translate(0, 0); } }
+@keyframes throb {
+  from {
+    transform: scale(1); }
+  50% {
+    transform: scale(0.95); }
+  to {
+    transform: scale(1); } }
+
+/*# sourceMappingURL=style.css.map */

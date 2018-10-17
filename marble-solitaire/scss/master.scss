@@ -1,0 +1,62 @@
+$cell-size: 40px;
+$border-width: 1px;
+
+.board {
+  .row {
+    display: flex;
+    .cell {
+      width: $cell-size;
+      height: $cell-size;
+      margin: 5px;
+      border-radius: 100%;
+      border: $border-width white solid;
+      &.inaccessible {
+        background-color: black;
+      }
+      &.marble {
+        background-color: blue;
+      }
+      &.empty {
+        background-color: white;
+      }
+      &.jump-option {
+        border: $border-width red solid;
+      }
+      &.awaiting {
+        animation: throb 0.8s linear infinite;
+      }
+    }
+  }
+  &.error {
+    animation: shudder 0.1s infinite linear;
+  }
+}
+
+$shudder-amount: 3px;
+
+@keyframes shudder {
+  from {
+    transform: translate(0, 0);
+  }
+  33% {
+    transform: translateX($shudder-amount);
+  }
+  66% {
+    transform: translateX(-$shudder-amount);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes throb {
+  from {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1);
+  }
+}
