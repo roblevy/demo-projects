@@ -86,14 +86,9 @@ function handleCellClick(event) {
   }
 }
 
-// origin, jumpOver and destination are all divs
+// origin and destination are both divs
 function jump(origin, destination) {
-  console.log('Jumping from', origin, 'to', destination);
-  const oldBoard = [];
-  board.forEach(row => {
-    oldBoard.push(row.slice());
-  });
-  boardHistory.push(oldBoard);
+  storeBoardHistory();
   // Set current cell to empty
   setBoardAtDivPosition(origin, 2);
   // Set jumped cell to empty
@@ -102,6 +97,14 @@ function jump(origin, destination) {
   // Set jump destination to contain a marble
   setBoardAtDivPosition(destination, 1);
   updateBoard();
+}
+
+function storeBoardHistory() {
+  const oldBoard = [];
+  board.forEach(row => {
+    oldBoard.push(row.slice());
+  });
+  boardHistory.push(oldBoard);
 }
 
 function getCellIndices(div) {
