@@ -1,0 +1,39 @@
+div {
+  display: flex;
+  box-sizing: border-box;
+}
+
+.container {
+  flex-direction: column;
+  height: 100vh;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.pile, .card {
+  width: 60px;
+  height: 100px;
+  border-radius: 10px;
+}
+
+.pile {
+  position: relative;
+  border: 2px #555 dashed;
+  margin: 20px;
+}
+
+.card {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-color: red;
+  border: 2px #ddd solid;
+}
+
+.open {
+  background-color: white;
+}
+
+.red {
+  color: red;
+}
