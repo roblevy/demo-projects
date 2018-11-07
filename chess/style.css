@@ -1,0 +1,46 @@
+div {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  font-size: 8vh;
+}
+
+.container {
+  height: 100vh;
+  margin: 0 auto;
+}
+
+.row {
+  display: flex;
+}
+
+.square {
+  height: 10vh;
+  width: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.black {
+  background-color: #7f5d44;
+}
+
+.white {
+  background-color: #eed5a8;
+}
+
+.highlight {
+  border: #19cc2f 5px solid;
+}
+
+.selected {
+  opacity: 0.7;
+}
+
+.black-piece {
+  color: black;
+}
+
+.white-piece {
+  color: white;
+}

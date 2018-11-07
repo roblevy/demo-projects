@@ -7,11 +7,18 @@ class Board {
 
   constructBoard() {
     let isWhite = false;
+    const $board = document.getElementById('board');
     for (let i = 0; i < 8; i++) {
+      const $row = document.createElement('div');
+      $row.classList = 'row';
       for (let j = 0; j < 8; j++) {
-        this.board.push(new Square(i + 1, j + 1, isWhite));
+        const $square = document.createElement('div');
+        $square.classList = 'square';
+        this.board.push(new Square(i + 1, j + 1, isWhite, $square));
         isWhite = !isWhite;
+        $row.appendChild($square);
       }
+      $board.appendChild($row);
       isWhite = !isWhite;
     }
   }

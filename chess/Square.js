@@ -1,12 +1,36 @@
 /* global board */
 
 class Square {
-  constructor(row, column, isWhite) {
+  constructor(row, column, isWhite, domElement) {
     this.row = row;
     this.column = column;
     this.name = 'ABCDEFGH'.charAt(column - 1) + row;
     this.isWhite = isWhite;
     this.colour = isWhite ? 'white' : 'black';
+    domElement.classList.add(this.colour);
+    domElement.addEventListener('click', handleSquareClick(this));
+    this.domElement = domElement;
+  }
+
+  highlight() {
+    const el = this.domElement;
+    el.classList.add('highlight');
+    setTimeout(() => {
+      el.classList.remove('highlight');
+    }, 2000);
+  }
+
+  render() {
+    const el = this.domElement;
+    const piece = this.piece;
+    if (!piece) {
+      el.textContent = '';
+    } else {
+      el.classList.remove('black-piece');
+      el.classList.remove('white-piece');
+      el.classList.add(`${piece.colour}-piece`);
+      el.textContent = this.piece.name;
+    }
   }
 
   isDiagonalFrom(square) {
@@ -21,12 +45,27 @@ class Square {
     return Math.max(Math.abs(this.row - square.row), Math.abs(this.column - square.column)) === 1;
   }
 
-  isAbove(square) {
-    return this.row - square.row > 0;
+  isKnightsMoveFrom(square) {
+    return (Math.abs(this.row - square.row) === 2
+      && Math.abs(this.column - square.column) === 1) ||
+      (Math.abs(this.row - square.row) === 1
+        && Math.abs(this.column - square.column) === 2);
   }
 
   isBelow(square) {
+    return this.row - square.row > 0;
+  }
+
+  isAbove(square) {
     return this.row - square.row < 0;
+  }
+
+  hasOppenentOf(piece) {
+    return this.piece && this.piece.colour !== piece.colour;
+  }
+
+  hasTeamMateOf(piece) {
+    return this.piece && this.piece.colour === piece.colour;
   }
 
   overlapsWith(square) {
@@ -43,7 +82,7 @@ class Square {
       const changeInColumn = (square2.column > square.column) ? 1 :
         (square2.column < square.column) ? -1 : 0;
       square = board.squareAt(square.row + changeInRow, square.column + changeInColumn);
-      if (square.piece) {
+      if (square.piece && this.piece) {
         if (square.piece.colour !== this.piece.colour) {
           squares.push(square);
         }
@@ -58,4 +97,17 @@ class Square {
   routeIsBlockedTo(square) {
     return !this.routeTo(square).includes(square);
   }
+
+  clear() {
+    this.piece.square = null;
+    this.piece = null;
+    this.render();
+  }
+
+  setPiece(piece) {
+    piece.square = this;
+    this.piece = piece;
+    this.render();
+  }
+
 }
