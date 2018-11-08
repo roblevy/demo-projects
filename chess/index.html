@@ -7,13 +7,27 @@
   </head>
   <body>
     <div class="container">
+      <div id="message-board" class="message-board">
+        &nbsp;
+      </div>
+      <div class="buttons">
+        <div id="hint" class="hint button">Hint</div>
+      </div>
+      <div class="player-indicator player-indicator-white"></div>
+      <div id="column-labels" class="labels">
+        <div class="square">
+          <!-- One empty square at the corner of the board labels -->
+        </div>
+      </div>
       <div id="board" class="board">
 
       </div>
+      <div class="player-indicator player-indicator-black hidden"></div>
     </div>
     <script src="Piece.js" charset="utf-8"></script>
     <script src="Square.js" charset="utf-8"></script>
     <script src="Board.js" charset="utf-8"></script>
+    <script src="Game.js" charset="utf-8"></script>
     <script src="dom.js" charset="utf-8"></script>
     <script src="app.js" charset="utf-8"></script>
   </body>

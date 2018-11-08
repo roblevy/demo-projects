@@ -12,25 +12,13 @@ class Square {
     this.domElement = domElement;
   }
 
-  highlight() {
+  highlight(level) {
     const el = this.domElement;
-    el.classList.add('highlight');
+    level = level || 1;
+    el.classList.add(`highlight${level}`);
     setTimeout(() => {
-      el.classList.remove('highlight');
+      el.classList.remove(`highlight${level}`);
     }, 2000);
-  }
-
-  render() {
-    const el = this.domElement;
-    const piece = this.piece;
-    if (!piece) {
-      el.textContent = '';
-    } else {
-      el.classList.remove('black-piece');
-      el.classList.remove('white-piece');
-      el.classList.add(`${piece.colour}-piece`);
-      el.textContent = this.piece.name;
-    }
   }
 
   isDiagonalFrom(square) {
@@ -110,4 +98,12 @@ class Square {
     this.render();
   }
 
+  isThreatenedBy(colour) {
+    // TODO: This is broken!
+    return board
+      .piecesByColour(colour)
+      // This is important because King threatens King threatens King....
+      .filter(piece => !(piece instanceof King))
+      .filter(piece => piece.isThreateningSquares().includes(this));
+  }
 }

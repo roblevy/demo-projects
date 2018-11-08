@@ -1,13 +1,15 @@
-/* global board, Square, board */
+/* global board, Game, board */
 /* eslint-disable no-unused-vars */
 class Piece {
-  constructor(squareName, colour, name) {
+  constructor(squareName, colour, symbol, name) {
     this.square = board.sq(squareName);
     this.square.piece = this;
     this.row = this.square.row;
     this.column = this.square.column;
-    this.colour = colour;
     this.name = name;
+    this.colour = colour;
+    this.opponentColour = colour === 'white' ? 'black' : 'white';
+    this.symbol = symbol;
     this.square.render();
   }
 
@@ -15,36 +17,70 @@ class Piece {
     return board.filter(square => this.squareIsAvailable(square));
   }
 
-  moveTo(square) {
+  attemptMoveTo(square) {
+    if (Game.isInCheck(this.colour) && !Game.pieceMovesPreventingCheck(this).includes(square)) {
+      Dom.message('This move does not prevent check');
+      return false;
+    }
+    if (Game.simulateMove(this, square, () => Game.isInCheck(this.colour))) {
+      Dom.message('You cannot move into check');
+      return false;
+    }
     if (this.squareIsAvailable(square)) {
+      Dom.message('Move ' + this.symbol + ' to ' + square.name);
       if (square.hasOppenentOf(this)) {
         this.takes(square.piece);
       }
-      this.square.clear();
-      square.setPiece(this);
+      this.moveTo(square);
       this.hasMoved = true;
+      return true;
     }
+    return false;
+  }
+
+  moveTo(square) {
+    this.square.clear();
+    square.setPiece(this);
+  }
+
+  canMove() {
+    return !!this.availableSquares().length;
   }
 
   takes(piece) {
-    console.log(`${this.colour} ${this.name} takes ${piece.colour} ${piece.name}!`);
+    Dom.message(`${this.colour} ${this.symbol} takes ${piece.colour} ${piece.symbol}!`);
+  }
+
+  isThreatenedBy() {
+    return board
+      .opponentsOf(this)
+      .filter(piece => piece.availableSquares().includes(this.square));
+  }
+
+  isThreatened() {
+    return this.isThreatenedBy().length;
+  }
+
+  isThreateningSquares() {
+    return this.availableSquares();
   }
 }
 
 class King extends Piece {
   constructor(squareName, colour) {
-    super(squareName, colour, '♚');
+    super(squareName, colour, '♚', 'K');
   }
 
   squareIsAvailable(square) {
     return square.isNeighbourOf(this.square)
-       && !this.square.routeIsBlockedTo(square);
+       && !this.square.routeIsBlockedTo(square)
+       && !square.isThreatenedBy(this.opponentColour).length;
   }
 }
 
 class Queen extends Piece {
   constructor(squareName, colour) {
-    super(squareName, colour, '♛');
+    super(squareName, colour, '♛', 'Q');
   }
 
   squareIsAvailable(square) {
@@ -56,7 +92,7 @@ class Queen extends Piece {
 
 class Bishop extends Piece {
   constructor(squareName, colour) {
-    super(squareName, colour, '♝');
+    super(squareName, colour, '♝', 'B');
   }
 
   squareIsAvailable(square) {
@@ -68,7 +104,7 @@ class Bishop extends Piece {
 
 class Knight extends Piece {
   constructor(squareName, colour) {
-    super(squareName, colour, '♞');
+    super(squareName, colour, '♞', 'N');
   }
 
   squareIsAvailable(square) {
@@ -78,7 +114,7 @@ class Knight extends Piece {
 
 class Rook extends Piece {
   constructor(squareName, colour) {
-    super(squareName, colour, '♜');
+    super(squareName, colour, '♜', 'R');
   }
 
   squareIsAvailable(square) {
@@ -90,21 +126,13 @@ class Rook extends Piece {
 
 class Pawn extends Piece {
   constructor(squareName, colour) {
-    super(squareName, colour, '♟');
+    super(squareName, colour, '♟', 'p');
     this.hasMoved = false;
   }
 
   squareIsAvailable(square) {
-    let isAvailable;
     const here = this.square;
-    switch(this.colour) {
-      case 'black':
-        isAvailable = square.isAbove(here);
-        break;
-      case 'white':
-        isAvailable = square.isBelow(here);
-        break;
-    }
+    let isAvailable = this.squareIsForwardOf(square);
     if (this.hasMoved) {
       isAvailable = isAvailable
         && square.isNeighbourOf(here);
@@ -115,8 +143,28 @@ class Pawn extends Piece {
     isAvailable = isAvailable
       && (
         (square.isStraightLineFrom(here) && !square.piece)
-        || (square.isDiagonalFrom(here) && square.hasOppenentOf(this) && square.isNeighbourOf(here))
+        || (this.isThreatening(square) && square.hasOppenentOf(this))
       );
     return isAvailable && !here.routeIsBlockedTo(square);
+  }
+
+  squareIsForwardOf(square) {
+    switch(this.colour) {
+      case 'black':
+        return square.isAbove(this.square);
+      case 'white':
+        return square.isBelow(this.square);
+    }
+  }
+
+  isThreatening(square) {
+    return this.squareIsForwardOf(square)
+      && square.isDiagonalFrom(this.square)
+      && square.isNeighbourOf(this.square);
+  }
+
+  isThreateningSquares() {
+    // TODO: Finish this. Which squares is this pawn threatening?
+    return board.filter(square => this.isThreatening(square));
   }
 }
