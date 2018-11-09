@@ -5,16 +5,26 @@ $hint.addEventListener('click', Game.giveHint);
 
 function handleSquareClick(square) {
   return function() {
+    Dom.clearHighlights();
     if (!selectedSquare && square.piece
         && Game.isMyTurn(square.piece) && square.piece.availableSquares().length) {
-      square.piece.availableSquares().forEach(sq => sq.highlight());
-      selectedSquare = square;
+      selectSquare(square);
     } else if (selectedSquare && selectedSquare.piece) {
-      Game.move(selectedSquare.piece, square);
+      if (square.piece && Game.isMyTurn(square.piece)) {
+        selectSquare(square);
+      } else {
+        Game.move(selectedSquare.piece, square);
+      }
     } else {
       selectedSquare = null;
     }
   };
+}
+
+function selectSquare(square) {
+  square.piece.availableSquares().forEach(sq => sq.highlight());
+  selectedSquare = square;
+  square.highlight(2);
 }
 
 Square.prototype.render = function() {
@@ -33,7 +43,7 @@ Square.prototype.render = function() {
 class Dom {
   static message(text) {
     document.getElementById('message-board')
-      .textContent = text;
+      .innerHTML = text;
   }
 
   static showHint(visible) {
@@ -48,5 +58,13 @@ class Dom {
     whiteToPlay = !whiteToPlay;
     document.querySelectorAll('.player-indicator')
       .forEach(el => el.classList.toggle('hidden'));
+  }
+
+  static clearHighlights() {
+    document.querySelectorAll('.square')
+      .forEach(square => {
+        square.classList.remove('highlight1');
+        square.classList.remove('highlight2');
+      });
   }
 }

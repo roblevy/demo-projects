@@ -1,4 +1,4 @@
-/* global board, Game, board */
+/* global board, Dom, Game, board */
 /* eslint-disable no-unused-vars */
 class Piece {
   constructor(squareName, colour, symbol, name) {
@@ -48,7 +48,10 @@ class Piece {
   }
 
   takes(piece) {
-    Dom.message(`${this.colour} ${this.symbol} takes ${piece.colour} ${piece.symbol}!`);
+    Dom.message(`${this.colour}
+      <span class="symbol">${this.symbol}</span>
+      takes ${piece.colour}
+      <span class="symbol">${piece.symbol}</span>!`);
   }
 
   isThreatenedBy() {
