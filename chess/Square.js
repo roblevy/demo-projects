@@ -61,15 +61,10 @@ class Square {
   }
 
   routeTo(square2) {
-    if (!this.isDiagonalFrom(square2) && !this.isStraightLineFrom(square2)) return [];
+    const squaresTo = this.squaresTo(square2);
     const squares = [];
-    let square = this;
-    while(!square.overlapsWith(square2)) {
-      const changeInRow = (square2.row > square.row) ? 1 :
-        (square2.row < square.row) ? -1 : 0;
-      const changeInColumn = (square2.column > square.column) ? 1 :
-        (square2.column < square.column) ? -1 : 0;
-      square = board.squareAt(square.row + changeInRow, square.column + changeInColumn);
+    for (let i = 0; i < squaresTo.length; i++) {
+      const square = squaresTo[i];
       if (square.piece && this.piece) {
         if (square.piece.colour !== this.piece.colour) {
           squares.push(square);
@@ -78,6 +73,25 @@ class Square {
       } else {
         squares.push(square);
       }
+    }
+    return squares;
+  }
+
+  nextSquareTowards(currentSquare, square2) {
+    const changeInRow = (square2.row > currentSquare.row) ? 1 :
+      (square2.row < currentSquare.row) ? -1 : 0;
+    const changeInColumn = (square2.column > currentSquare.column) ? 1 :
+      (square2.column < currentSquare.column) ? -1 : 0;
+    return board.squareAt(currentSquare.row + changeInRow, currentSquare.column + changeInColumn);
+  }
+
+  squaresTo(square2) {
+    if (!this.isDiagonalFrom(square2) && !this.isStraightLineFrom(square2)) return [];
+    const squares = [];
+    let square = this;
+    while(!square.overlapsWith(square2)) {
+      square = this.nextSquareTowards(square, square2);
+      squares.push(square);
     }
     return squares;
   }

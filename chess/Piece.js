@@ -11,6 +11,7 @@ class Piece {
     this.opponentColour = colour === 'white' ? 'black' : 'white';
     this.symbol = symbol;
     this.square.render();
+    this.hasMoved = false;
   }
 
   availableSquares() {
@@ -79,6 +80,18 @@ class King extends Piece {
        && !this.square.routeIsBlockedTo(square)
        && !square.isThreatenedBy(this.opponentColour).length;
   }
+
+  canCastle(rook) {
+    // Has either piece moved?
+    if (this.hasMoved || rook.hasMoved) return false;
+    // Are any of the intervening squares threatened?
+    if (this.square.routeTo(rook.square).some(square =>
+      square.isThreatenedBy(this.oppenentColour).length)) return false;
+    // Are any of the intervening squares occupied?
+    if (this.square.squaresTo(rook.square).some(square =>
+      square.piece !== rook)) return false;
+    return true;
+  }
 }
 
 class Queen extends Piece {
@@ -130,7 +143,6 @@ class Rook extends Piece {
 class Pawn extends Piece {
   constructor(squareName, colour) {
     super(squareName, colour, '♟', 'p');
-    this.hasMoved = false;
   }
 
   squareIsAvailable(square) {
