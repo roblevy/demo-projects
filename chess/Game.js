@@ -25,12 +25,16 @@ class Game {
     const moved = piece.attemptMoveTo(square);
     selectedSquare = null;
     if (moved) {
-      Dom.togglePlayer();
-      const whiteCheckmate = Game.isCheckmate('white');
-      const blackCheckmate = Game.isCheckmate('black');
-      if (whiteCheckmate || blackCheckmate) {
-        Dom.message('Checkmate ' + (whiteCheckmate ? 'black' : 'white') + ' wins.');
-      }
+      this.finishMove();
+    }
+  }
+
+  static finishMove() {
+    Dom.togglePlayer();
+    const whiteCheckmate = Game.isCheckmate('white');
+    const blackCheckmate = Game.isCheckmate('black');
+    if (whiteCheckmate || blackCheckmate) {
+      Dom.message('Checkmate ' + (whiteCheckmate ? 'black' : 'white') + ' wins.');
     }
   }
 
