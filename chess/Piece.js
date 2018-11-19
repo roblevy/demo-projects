@@ -23,13 +23,15 @@ class Piece {
       Dom.message('This move does not prevent check');
       return false;
     }
-    if (Game.simulateMove(this, square, () => Game.isInCheck(this.colour))) {
+    const moveResultsInCheck = Game
+      .simulateMove(this, square, () => Game.isInCheck(this.colour));
+    if (this.squareIsAvailable(square) && moveResultsInCheck) {
       Dom.message('You cannot move into check');
       return false;
     }
     if (this.squareIsAvailable(square)) {
       Dom.message('Move ' + this.symbol + ' to ' + square.name);
-      if (square.hasOppenentOf(this)) {
+      if (square.hasOpponentOf(this)) {
         this.takes(square.piece);
       }
       this.moveTo(square);
@@ -76,42 +78,81 @@ class King extends Piece {
   }
 
   squareIsAvailable(square) {
-    return square.isNeighbourOf(this.square)
-       && !this.square.routeIsBlockedTo(square)
-       && !square.isThreatenedBy(this.opponentColour).length;
+    const castlingDestinations = board
+      .piecesByColour(this.colour)
+      .filter(piece => piece instanceof Rook && this.canCastle(piece))
+      .map(piece => this.castlingDestinations(piece).king);
+    const neighbouringSquares = board
+      .filter(sq => sq.isNeighbourOf(square));
+    return castlingDestinations.includes(square)
+      || (square.isNeighbourOf(this.square)
+        && !neighbouringSquares.find(sq => sq.hasOpponentKing(this))
+      && !this.square.routeIsBlockedTo(square)
+      && !square.isThreatenedBy(this.opponentColour).length);
+  }
+
+  hasOpponentKing(square) {
+    return square.piece && square.piece instanceof King
+      && square.piece.colour === this.opponentColour;
+  }
+
+  rookToCastleWithToReach(square) {
+    return board
+      .piecesByColour(this.colour)
+      .filter(piece => piece instanceof Rook && this.canCastle(piece))
+      .find(piece => this.castlingDestinations(piece).king === square);
   }
 
   castle(rook) {
     if (this.canCastle(rook)) {
-      const row = this.row;
-      if (rook.column === 8) {
-        // King's side
-        this.moveTo(sq('G' + row));
-        rook.moveTo(sq('F' + row));
-      } else if (rook.column === 1) {
-        // Queen's side
-        this.moveTo(sq('C' + row));
-        rook.moveTo(sq('D' + row));
-      }
-      Game.finishMove();
+      const destinations = this.castlingDestinations(rook);
+      this.moveTo(destinations.king);
+      rook.moveTo(destinations.rook);
+      Dom.message(this.colour + ' castles');
+      return true;
+    }
+  }
+
+  castlingDestinations(rook) {
+    if (rook.column === 8) {
+      // King's side
+      return {
+        king: board.squareAt(this.row, 7),
+        rook: board.squareAt(this.row, 6)
+      };
+    } else if (rook.column === 1) {
+      // Queen's side
+      return {
+        king: board.squareAt(this.row, 3),
+        rook: board.squareAt(this.row, 4)
+      };
+    }
+  }
+
+  attemptMoveTo(square) {
+    const rookToCastleWith = this.rookToCastleWithToReach(square);
+    if (rookToCastleWith) {
+      // Square is available via castling
+      return this.castle(rookToCastleWith);
+    } else {
+      // Square is available normally
+      return super.attemptMoveTo(square);
     }
   }
 
   canCastle(rook) {
-    let message = '';
     // Is the rook of the right colour?
-    if (this.colour !== rook.colour) message = 'Wrong rook';
+    if (this.colour !== rook.colour) return false;
     // Has either piece moved?
-    if (this.hasMoved || rook.hasMoved) message = 'You cannot castle after moving';
+    if (this.hasMoved || rook.hasMoved) return false;
     // Are any of the intervening squares threatened?
     const opponentColour = this.opponentColour;
     if (this.square.routeTo(rook.square).some(square =>
-      square.isThreatenedBy(opponentColour).length)) message = 'You cannot castle through check';
+      square.isThreatenedBy(opponentColour).length)) return false;
     // Are any of the intervening squares occupied?
     if (this.square.squaresTo(rook.square).filter(square =>
-      square.piece !== rook).some(square => square.piece)) message = 'The route to castling is blocked';
-    if (message) Dom.message(message);
-    return !message;
+      square.piece !== rook).some(square => square.piece)) return false;
+    return true;
   }
 }
 
@@ -179,7 +220,7 @@ class Pawn extends Piece {
     isAvailable = isAvailable
       && (
         (square.isStraightLineFrom(here) && !square.piece)
-        || (this.isThreatening(square) && square.hasOppenentOf(this))
+        || (this.isThreatening(square) && square.hasOpponentOf(this))
       );
     return isAvailable && !here.routeIsBlockedTo(square);
   }

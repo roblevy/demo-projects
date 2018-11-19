@@ -48,8 +48,12 @@ class Square {
     return this.row - square.row < 0;
   }
 
-  hasOppenentOf(piece) {
+  hasOpponentOf(piece) {
     return this.piece && this.piece.colour !== piece.colour;
+  }
+
+  hasOpponentKing(piece) {
+    return this.hasOpponentOf(piece) && this.piece instanceof King;
   }
 
   hasTeamMateOf(piece) {
