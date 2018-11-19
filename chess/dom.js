@@ -2,6 +2,8 @@
 /* eslint-disable no-global-assign, no-unused-vars */
 const $hint = document.getElementById('hint');
 $hint.addEventListener('click', Game.giveHint);
+const $form = document.getElementById('notation');
+$form.addEventListener('submit', Game.handleNotation);
 
 function handleSquareClick(square) {
   return function() {
@@ -67,4 +69,5 @@ class Dom {
         square.classList.remove('highlight2');
       });
   }
+
 }

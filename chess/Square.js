@@ -1,4 +1,5 @@
-/* global board */
+/* global board,King,handleSquareClick */
+/* eslint-disable no-unused-vars */
 
 class Square {
   constructor(row, column, isWhite, domElement) {

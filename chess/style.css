@@ -18,7 +18,27 @@ div {
   color: white;
 }
 
-.message-board {
+form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom:uu
+}
+
+input {
+  border: none;
+  height: 100%;
+  text-align: center;
+  font-size: inherit;
+  font-family: inherit;
+  background: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+.text-box {
+  margin: 1vh auto;
   font-family: monospace;
   font-size: 3vh;
   height: 5vh;

@@ -104,4 +104,12 @@ class Game {
       Game.move(piece, square);
     }
   }
+
+  static handleNotation(event) {
+    event.preventDefault();
+    const $input = this.querySelector('input');
+    const notation = $input.value;
+    Game.moveByNotation(notation);
+    $input.value = '';
+  }
 }
