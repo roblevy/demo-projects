@@ -81,20 +81,19 @@ input:focus {
 }
 
 .player-indicator {
-  height: 4vh;
+  height: 2vh;
   width: 100%;
   margin: 1vh 0;
-  border: 1vh solid;
 }
 
 .player-indicator-white {
   background-color: white;
-  border-color: #eed5a8
+  border: 0.2vh solid;
+  border-color: #eed5a8;
 }
 
 .player-indicator-black {
   background-color: black;
-  border-color: #7f5d44;
 }
 
 .highlight1 {
