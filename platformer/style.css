@@ -1,0 +1,53 @@
+.screen {
+  width: 100vw;
+  height: 100vh;
+}
+
+.background {
+  position: fixed;
+  width: 500vw;
+  height: 100vh;
+  background-color: skyblue;
+  display: flex;
+}
+
+.foreground {
+  width: 100vw;
+  height: 450vw;
+}
+
+.container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+.item {
+  position: absolute;
+  transform-origin: top left;
+}
+
+.platform {
+  background-image: url(img/png/platform-centre.png);
+  background-size: 55px;
+  background-repeat: repeat;
+  height: 100%;
+  border-radius: 5px;
+  border: 3px solid grey;
+}
+
+.details {
+  z-index: 2;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8vh;
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.details p {
+  margin: 40px;
+  padding-right: 200px;
+}
