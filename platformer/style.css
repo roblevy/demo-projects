@@ -13,7 +13,7 @@
 
 .foreground {
   width: 100vw;
-  height: 450vw;
+  height: 600vw;
 }
 
 .container {
@@ -28,11 +28,17 @@
   transform-origin: top left;
 }
 
+.platforms {
+  position: absolute;
+  height: 60vh;
+  bottom: 0px;
+}
 .platform {
   background-image: url(img/png/platform-centre.png);
   background-size: 55px;
   background-repeat: repeat;
-  height: 100%;
+  width: calc(100vw / 57);
+  height: calc(100vw / 57);
   border-radius: 5px;
   border: 3px solid grey;
 }
@@ -40,7 +46,7 @@
 .details {
   z-index: 2;
   font-family: 'Press Start 2P', cursive;
-  font-size: 8vh;
+  font-size: 20px;
   color: white;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   display: flex;

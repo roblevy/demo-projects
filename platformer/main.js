@@ -2,7 +2,7 @@
 function createSky() {
   for (let i = 0; i < 20; i++) {
     const x = lib.randBetween(0, 100);
-    const y = lib.randBetween(0, 40);
+    const y = lib.randBetween(0, 100);
     new Cloud(x, y);
   }
 }
@@ -15,8 +15,7 @@ window.addEventListener('scroll', e => {
 
 function createRow(rowNumber, decimalCode, offset) {
   const binaryCode = decimalCode.toString(2).padStart(60, '0');
-  const scale = 3.5;
-  const y = rowNumber * scale;
+  const y = rowNumber;
   let prev = '0';
   const pixels = binaryCode.split('').reverse();
   let width = 0;
@@ -28,7 +27,7 @@ function createRow(rowNumber, decimalCode, offset) {
       if (prev === '0') start = i;
     }
     if ((x === '0' && prev === '1') || (x === '1' && i === pixels.length - 1)) {
-      new Platform(start + offset, y + 50, width);
+      new Platform(start + offset, y, width);
       width = 0;
       start = null;
     }
